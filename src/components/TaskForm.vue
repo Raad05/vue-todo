@@ -3,15 +3,17 @@ import { ref } from 'vue'
 
 const newTask = ref('')
 
-const addTask = () => {
-  console.log('====================================')
-  console.log(newTask.value)
-  console.log('====================================')
+const emit = defineEmits<{
+  addTask: [newTask: string]
+}>()
+
+function formSubmitted() {
+  emit('addTask', newTask.value)
 }
 </script>
 
 <template>
-  <form @submit.prevent="addTask">
+  <form @submit.prevent="formSubmitted">
     <label>
       New Task
       <input type="text" name="newTask" v-model="newTask" />

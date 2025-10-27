@@ -1,14 +1,24 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import TaskForm from './components/TaskForm.vue'
+import type { Task } from './types'
 
-const message = ref('Hmm')
+const tasks = ref<Task[]>([])
+
+const addTask = (newTask: string) => {
+  tasks.value.push({
+    id: crypto.randomUUID(),
+    title: newTask,
+    done: false,
+  })
+}
 </script>
 
 <template>
   <main>
-    <h1>{{ message }}</h1>
-    <TaskForm />
+    <h1>Task Tracker</h1>
+    <TaskForm @add-task="addTask" />
+    <p>There are: {{ tasks.length }} tasks</p>
   </main>
 </template>
 
