@@ -1,11 +1,20 @@
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import { ref } from 'vue'
+import TaskForm from './components/TaskForm.vue'
+
+const message = ref('Hmm')
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <main>
+    <h1>{{ message }}</h1>
+    <TaskForm />
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  max-width: 800px;
+  margin: 1rem auto;
+}
+</style>
