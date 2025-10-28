@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import TaskForm from './components/TaskForm.vue'
 import type { Task } from './types'
 import TaskList from './components/TaskList.vue'
@@ -20,6 +20,14 @@ const toggleStatus = (id: string) => {
     task.done = !task.done
   }
 }
+
+const totalDone = computed(() =>
+  tasks.value.reduce((total, task) => (task.done ? total + 1 : total), 0),
+)
+
+const removeTask = (id: string) => {
+  tasks.value = tasks.value.filter((task) => task.id !== id)
+}
 </script>
 
 <template>
@@ -27,9 +35,13 @@ const toggleStatus = (id: string) => {
     <h1>Task Tracker</h1>
     <TaskForm @add-task="addTask" />
     <h3>
-      {{ !tasks.length ? 'Add a task to get started' : `0 / ${tasks.length} task(s) completed.` }}
+      {{
+        !tasks.length
+          ? 'Add a task to get started'
+          : `${totalDone} / ${tasks.length} task(s) completed.`
+      }}
     </h3>
-    <TaskList :tasks @toggle-status="toggleStatus" />
+    <TaskList :tasks @toggle-status="toggleStatus" @remove-task="removeTask" />
   </main>
 </template>
 
