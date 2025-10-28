@@ -13,13 +13,23 @@ const addTask = (newTask: string) => {
     done: false,
   })
 }
+
+const toggleStatus = (id: string) => {
+  const task = tasks.value.find((task) => task.id === id)
+  if (task) {
+    task.done = !task.done
+  }
+}
 </script>
 
 <template>
   <main>
     <h1>Task Tracker</h1>
     <TaskForm @add-task="addTask" />
-    <TaskList :tasks />
+    <h3>
+      {{ !tasks.length ? 'Add a task to get started' : `0 / ${tasks.length} task(s) completed.` }}
+    </h3>
+    <TaskList :tasks @toggle-status="toggleStatus" />
   </main>
 </template>
 
