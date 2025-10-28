@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Task } from '@/types'
+import { TransitionGroup } from 'vue'
 
 const props = defineProps<{ tasks: Task[] }>()
 
@@ -10,13 +11,15 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <article v-for="task in props.tasks" :key="task.id" class="task">
-    <label>
-      <input type="checkbox" @input="emit('toggleStatus', task.id)" :checked="task.done" />
-      <span :class="{ done: task.done }">{{ task.title }}</span>
-    </label>
-    <button class="outline" @click="emit('removeTask', task.id)">Remove</button>
-  </article>
+  <TransitionGroup name="list" tag="">
+    <article v-for="task in props.tasks" :key="task.id" class="task">
+      <label>
+        <input type="checkbox" @input="emit('toggleStatus', task.id)" :checked="task.done" />
+        <span :class="{ done: task.done }">{{ task.title }}</span>
+      </label>
+      <button class="outline" @click="emit('removeTask', task.id)">Remove</button>
+    </article>
+  </TransitionGroup>
 </template>
 
 <style scoped>
@@ -28,5 +31,16 @@ const emit = defineEmits<{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* transition-group */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>
