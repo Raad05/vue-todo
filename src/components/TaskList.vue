@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { Task } from '@/types'
-import { TransitionGroup } from 'vue'
 
 const props = defineProps<{ tasks: Task[] }>()
 
